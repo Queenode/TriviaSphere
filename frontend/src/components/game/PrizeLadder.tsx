@@ -22,7 +22,7 @@ const LADDER = [
 
 export default function PrizeLadder({ currentLevel }: { currentLevel: number }) {
   return (
-    <div className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/60 backdrop-blur-md border border-gray-800 p-4 rounded-xl hidden md:block">
+    <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/60 backdrop-blur-md border border-gray-800 p-4 rounded-xl hidden md:block">
       <h3 className="text-blue-400 font-bold mb-4 text-center tracking-widest text-sm">REWARDS</h3>
       <div className="flex flex-col gap-1">
         {LADDER.map((step) => {

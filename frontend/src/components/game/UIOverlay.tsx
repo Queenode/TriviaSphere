@@ -156,7 +156,7 @@ export default function UIOverlay({
 
   if (gameState === 'gameover' || gameState === 'won') {
     return (
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 p-4 bg-black/80 backdrop-blur-sm">
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-20 p-4 bg-black/80 backdrop-blur-sm">
         <h2 className={`text-5xl font-bold mb-4 ${gameState === 'won' ? 'text-green-400' : 'text-red-500'}`}>
           {gameState === 'won' ? 'YOU WON!' : 'GAME OVER'}
         </h2>
@@ -174,7 +174,7 @@ export default function UIOverlay({
   if (!currentQuestion) return null;
 
   return (
-    <div className="absolute inset-x-0 bottom-0 top-auto z-10 flex flex-col items-center p-4 md:p-8 pb-12">
+    <div className="absolute inset-x-0 bottom-0 top-auto z-20 flex flex-col items-center p-4 md:p-8 pb-12">
       
       {/* Modals for Lifelines */}
       {audiencePoll && (

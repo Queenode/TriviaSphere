@@ -85,7 +85,7 @@ export default function Home() {
   };
 
   return (
-    <main className="relative w-screen h-screen overflow-hidden bg-black text-white font-sans">
+    <main className="relative w-screen h-screen overflow-hidden text-white font-sans">
       <Scene isRevealing={isRevealing} />
       
       <UIOverlay 

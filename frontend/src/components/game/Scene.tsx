@@ -1,8 +1,8 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Environment, Cylinder, Ring, Box, Sphere, Plane } from "@react-three/drei";
-import { useRef } from "react";
+import { OrbitControls, Cylinder, Ring, Box, Sphere } from "@react-three/drei";
+import { useRef, Suspense } from "react";
 import * as THREE from 'three';
 
 function StudioLights() {
@@ -23,11 +23,13 @@ function StudioLights() {
 
   return (
     <>
-      <ambientLight intensity={0.2} />
+      <ambientLight intensity={0.3} />
       <pointLight position={[0, 10, 0]} intensity={40} color="#1d4ed8" distance={20} />
       <pointLight position={[0, 0, 0]} intensity={20} color="#00ffff" distance={6} />
-      <spotLight ref={lightRef1} position={[0, 8, 5]} angle={0.4} penumbra={1} intensity={150} color="#3b82f6" castShadow />
-      <spotLight ref={lightRef2} position={[5, 8, -5]} angle={0.4} penumbra={1} intensity={150} color="#8b5cf6" castShadow />
+      <spotLight ref={lightRef1} position={[0, 8, 5]} angle={0.4} penumbra={1} intensity={150} color="#3b82f6" />
+      <spotLight ref={lightRef2} position={[5, 8, -5]} angle={0.4} penumbra={1} intensity={150} color="#8b5cf6" />
+      {/* Backlight for silhouettes */}
+      <pointLight position={[0, 3, -3]} intensity={15} color="#7c3aed" distance={8} />
     </>
   );
 }
@@ -36,7 +38,7 @@ function GameShowSet() {
   return (
     <group position={[0, -1, 0]}>
       {/* Intricate Floor Pattern */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]}>
         <circleGeometry args={[10, 64]} />
         <meshStandardMaterial color="#020813" roughness={0.5} metalness={0.5} />
       </mesh>
@@ -58,7 +60,7 @@ function GameShowSet() {
       {/* Center V-Console */}
       <group position={[0, 0, 0]}>
         <Cylinder args={[1.2, 1.2, 0.2, 32]} position={[0, -0.4, 0]}>
-          <meshStandardMaterial color="#050505" metalness={0.9} />
+          <meshStandardMaterial color="#050505" metalness={0.9} roughness={0.1} />
         </Cylinder>
         <Ring args={[1.1, 1.25, 32]} position={[0, -0.29, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <meshBasicMaterial color="#00ffff" />
@@ -66,7 +68,7 @@ function GameShowSet() {
 
         {/* Left Arm of V */}
         <Box args={[0.3, 1.8, 0.8]} position={[-0.8, 0.4, 0]} rotation={[0, 0, -0.5]}>
-          <meshStandardMaterial color="#111" metalness={0.8} />
+          <meshStandardMaterial color="#111" metalness={0.8} roughness={0.2} />
         </Box>
         <Box args={[0.05, 1.8, 0.81]} position={[-0.65, 0.4, 0]} rotation={[0, 0, -0.5]}>
           <meshBasicMaterial color="#00ffff" />
@@ -74,7 +76,7 @@ function GameShowSet() {
 
         {/* Right Arm of V */}
         <Box args={[0.3, 1.8, 0.8]} position={[0.8, 0.4, 0]} rotation={[0, 0, 0.5]}>
-          <meshStandardMaterial color="#111" metalness={0.8} />
+          <meshStandardMaterial color="#111" metalness={0.8} roughness={0.2} />
         </Box>
         <Box args={[0.05, 1.8, 0.81]} position={[0.65, 0.4, 0]} rotation={[0, 0, 0.5]}>
           <meshBasicMaterial color="#3b82f6" />
@@ -85,21 +87,21 @@ function GameShowSet() {
       <group position={[-2.8, -0.1, 0]} rotation={[0, Math.PI / 2, 0]}>
         {/* Chair */}
         <Cylinder args={[0.4, 0.4, 0.8, 16]} position={[0, -0.2, 0]}>
-           <meshStandardMaterial color="#1a1a1a" metalness={0.8} />
+          <meshStandardMaterial color="#1a1a1a" metalness={0.8} roughness={0.2} />
         </Cylinder>
         <Box args={[0.9, 0.1, 0.9]} position={[0, 0.2, 0]}>
-           <meshStandardMaterial color="#0a0a0a" />
+          <meshStandardMaterial color="#0a0a0a" roughness={0.3} />
         </Box>
         <Box args={[0.9, 1.2, 0.1]} position={[0, 0.8, -0.4]} rotation={[0.1, 0, 0]}>
-           <meshStandardMaterial color="#0a0a0a" />
+          <meshStandardMaterial color="#0a0a0a" roughness={0.3} />
         </Box>
         {/* Abstract Host Silhouette */}
         <group position={[0, 0.4, 0.1]}>
           <Box args={[0.6, 0.8, 0.3]} position={[0, 0.4, 0]}>
-             <meshStandardMaterial color="#050505" roughness={0.9} />
+            <meshStandardMaterial color="#080808" roughness={0.9} />
           </Box>
-          <Sphere args={[0.25]} position={[0, 1.05, 0]}>
-             <meshStandardMaterial color="#020202" roughness={0.5} />
+          <Sphere args={[0.25, 16, 16]} position={[0, 1.05, 0]}>
+            <meshStandardMaterial color="#050505" roughness={0.5} />
           </Sphere>
         </group>
       </group>
@@ -108,21 +110,21 @@ function GameShowSet() {
       <group position={[2.8, -0.1, 0]} rotation={[0, -Math.PI / 2, 0]}>
         {/* Chair */}
         <Cylinder args={[0.4, 0.4, 0.8, 16]} position={[0, -0.2, 0]}>
-           <meshStandardMaterial color="#1a1a1a" metalness={0.8} />
+          <meshStandardMaterial color="#1a1a1a" metalness={0.8} roughness={0.2} />
         </Cylinder>
         <Box args={[0.9, 0.1, 0.9]} position={[0, 0.2, 0]}>
-           <meshStandardMaterial color="#0a0a0a" />
+          <meshStandardMaterial color="#0a0a0a" roughness={0.3} />
         </Box>
         <Box args={[0.9, 1.2, 0.1]} position={[0, 0.8, -0.4]} rotation={[0.1, 0, 0]}>
-           <meshStandardMaterial color="#0a0a0a" />
+          <meshStandardMaterial color="#0a0a0a" roughness={0.3} />
         </Box>
         {/* Abstract Player Silhouette */}
         <group position={[0, 0.4, 0.1]}>
           <Box args={[0.55, 0.75, 0.3]} position={[0, 0.375, 0]}>
-             <meshStandardMaterial color="#0a0a0a" roughness={0.9} />
+            <meshStandardMaterial color="#0a0a0a" roughness={0.9} />
           </Box>
-          <Sphere args={[0.22]} position={[0, 1.0, 0]}>
-             <meshStandardMaterial color="#050505" roughness={0.5} />
+          <Sphere args={[0.22, 16, 16]} position={[0, 1.0, 0]}>
+            <meshStandardMaterial color="#080808" roughness={0.5} />
           </Sphere>
         </group>
       </group>
@@ -140,13 +142,20 @@ function GameShowSet() {
 
 export default function Scene({ isRevealing = false }: { isRevealing?: boolean }) {
   return (
-    <div className="absolute inset-0 -z-10 bg-[#02050a]">
-      <Canvas shadows camera={{ position: [0, 3.5, 9], fov: 45 }}>
+    <div className="absolute inset-0 z-0" style={{ background: '#02050a' }}>
+      <Canvas
+        camera={{ position: [0, 3.5, 9], fov: 45 }}
+        gl={{ antialias: true, alpha: false }}
+        onCreated={({ gl }) => {
+          gl.setClearColor('#02050a');
+        }}
+      >
         <fog attach="fog" args={['#02050a', 6, 25]} />
-        <StudioLights />
-        <Environment preset="city" />
-
-        <GameShowSet />
+        
+        <Suspense fallback={null}>
+          <StudioLights />
+          <GameShowSet />
+        </Suspense>
 
         <OrbitControls 
           enableZoom={false} 
