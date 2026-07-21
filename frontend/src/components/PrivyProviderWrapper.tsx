@@ -9,16 +9,13 @@ export default function PrivyProviderWrapper({
 }) {
   return (
     <PrivyProvider
-      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || "clpxt1m9f000008l412345678"}
+      appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || "cmrutcdtc00b10blbawudwjx7"}
       config={{
         loginMethods: ["email", "wallet", "google", "apple"],
         appearance: {
           theme: "dark",
           accentColor: "#3B82F6", // Tailwind blue-500
           logo: "https://your-logo-url", // Optional
-        },
-        embeddedWallets: {
-          createOnLogin: "users-without-wallets",
         },
       }}
     >
