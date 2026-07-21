@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, Users, HelpCircle } from 'lucide-react';
+import { useSound } from '@/hooks/useSound';
 interface Question {
   id: number;
   level: number;
@@ -20,6 +21,10 @@ export default function UIOverlay({ currentQuestion, onAnswerSubmit, gameState, 
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isRevealing, setIsRevealing] = useState(false);
 
+  const { play: playSuspense, stop: stopSuspense } = useSound('/sounds/suspense.mp3');
+  const { play: playCorrect } = useSound('/sounds/correct.mp3');
+  const { play: playWrong } = useSound('/sounds/wrong.mp3');
+
   // Reset local state when question changes
   useEffect(() => {
     setSelectedAnswer(null);
@@ -29,10 +34,19 @@ export default function UIOverlay({ currentQuestion, onAnswerSubmit, gameState, 
   const handleSelect = (index: number) => {
     if (selectedAnswer !== null || isRevealing) return;
     setSelectedAnswer(index);
+    playSuspense();
     
     // Simulate suspense
     setTimeout(() => {
       setIsRevealing(true);
+      stopSuspense();
+      
+      if (currentQuestion && index === currentQuestion.correctAnswer) {
+        playCorrect();
+      } else {
+        playWrong();
+      }
+
       setTimeout(() => {
         onAnswerSubmit(index);
       }, 2000); // 2 second delay to show right/wrong

@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import questionsData from '@/data/questions.json';
 import UIOverlay from '@/components/game/UIOverlay';
 import PrizeLadder from '@/components/game/PrizeLadder';
+import { useSound } from '@/hooks/useSound';
 
 // Dynamically import Scene so it only renders on client
 const Scene = dynamic(() => import('@/components/game/Scene'), { ssr: false });
@@ -15,6 +16,20 @@ export default function Home() {
   const [gameState, setGameState] = useState<GameState>('playing');
   const [currentLevel, setCurrentLevel] = useState(1);
   const [message, setMessage] = useState('');
+
+  const { play: playTheme, stop: stopTheme } = useSound('/sounds/theme.mp3', true);
+  const { play: playWin } = useSound('/sounds/win.mp3');
+
+  useEffect(() => {
+    if (gameState === 'playing') {
+      playTheme();
+    } else {
+      stopTheme();
+      if (gameState === 'won') {
+        playWin();
+      }
+    }
+  }, [gameState, playTheme, stopTheme, playWin]);
 
   const currentQuestion = questionsData.find(q => q.level === currentLevel) || null;
 
