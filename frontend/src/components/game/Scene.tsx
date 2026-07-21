@@ -83,7 +83,7 @@ function GameShowSet() {
         </Box>
       </group>
 
-      {/* Host Chair & Silhouette (Left) */}
+      {/* Host Chair & Seated Person (Left) */}
       <group position={[-2.8, -0.1, 0]} rotation={[0, Math.PI / 2, 0]}>
         {/* Chair */}
         <Cylinder args={[0.4, 0.4, 0.8, 16]} position={[0, -0.2, 0]}>
@@ -95,18 +95,65 @@ function GameShowSet() {
         <Box args={[0.9, 1.2, 0.1]} position={[0, 0.8, -0.4]} rotation={[0.1, 0, 0]}>
           <meshStandardMaterial color="#0a0a0a" roughness={0.3} />
         </Box>
-        {/* Abstract Host Silhouette */}
-        <group position={[0, 0.4, 0.1]}>
-          <Box args={[0.6, 0.8, 0.3]} position={[0, 0.4, 0]}>
-            <meshStandardMaterial color="#080808" roughness={0.9} />
-          </Box>
-          <Sphere args={[0.25, 16, 16]} position={[0, 1.05, 0]}>
-            <meshStandardMaterial color="#050505" roughness={0.5} />
+
+        {/* Seated Host Mannequin */}
+        <group position={[0, 0.25, 0]}>
+          {/* Head */}
+          <Sphere args={[0.18, 16, 16]} position={[0, 1.35, 0]}>
+            <meshStandardMaterial color="#2a1f14" roughness={0.6} />
           </Sphere>
+          {/* Neck */}
+          <Cylinder args={[0.06, 0.06, 0.12, 8]} position={[0, 1.12, 0]}>
+            <meshStandardMaterial color="#2a1f14" roughness={0.6} />
+          </Cylinder>
+          {/* Torso */}
+          <Box args={[0.5, 0.6, 0.25]} position={[0, 0.75, 0]}>
+            <meshStandardMaterial color="#111827" roughness={0.4} />
+          </Box>
+          {/* Left Upper Arm */}
+          <Cylinder args={[0.07, 0.06, 0.35, 8]} position={[-0.33, 0.85, 0]} rotation={[0, 0, 0.3]}>
+            <meshStandardMaterial color="#111827" roughness={0.4} />
+          </Cylinder>
+          {/* Left Forearm (resting on lap) */}
+          <Cylinder args={[0.06, 0.05, 0.3, 8]} position={[-0.3, 0.55, 0.15]} rotation={[1.2, 0, 0]}>
+            <meshStandardMaterial color="#2a1f14" roughness={0.6} />
+          </Cylinder>
+          {/* Right Upper Arm */}
+          <Cylinder args={[0.07, 0.06, 0.35, 8]} position={[0.33, 0.85, 0]} rotation={[0, 0, -0.3]}>
+            <meshStandardMaterial color="#111827" roughness={0.4} />
+          </Cylinder>
+          {/* Right Forearm (resting on lap) */}
+          <Cylinder args={[0.06, 0.05, 0.3, 8]} position={[0.3, 0.55, 0.15]} rotation={[1.2, 0, 0]}>
+            <meshStandardMaterial color="#2a1f14" roughness={0.6} />
+          </Cylinder>
+          {/* Left Thigh (seated, horizontal) */}
+          <Cylinder args={[0.09, 0.08, 0.45, 8]} position={[-0.15, 0.35, 0.2]} rotation={[1.5, 0, 0]}>
+            <meshStandardMaterial color="#1e1e2e" roughness={0.5} />
+          </Cylinder>
+          {/* Right Thigh */}
+          <Cylinder args={[0.09, 0.08, 0.45, 8]} position={[0.15, 0.35, 0.2]} rotation={[1.5, 0, 0]}>
+            <meshStandardMaterial color="#1e1e2e" roughness={0.5} />
+          </Cylinder>
+          {/* Left Lower Leg (hanging down) */}
+          <Cylinder args={[0.07, 0.06, 0.4, 8]} position={[-0.15, 0.0, 0.42]} rotation={[0.1, 0, 0]}>
+            <meshStandardMaterial color="#1e1e2e" roughness={0.5} />
+          </Cylinder>
+          {/* Right Lower Leg */}
+          <Cylinder args={[0.07, 0.06, 0.4, 8]} position={[0.15, 0.0, 0.42]} rotation={[0.1, 0, 0]}>
+            <meshStandardMaterial color="#1e1e2e" roughness={0.5} />
+          </Cylinder>
+          {/* Left Shoe */}
+          <Box args={[0.1, 0.06, 0.18]} position={[-0.15, -0.2, 0.47]}>
+            <meshStandardMaterial color="#0a0a0a" roughness={0.3} />
+          </Box>
+          {/* Right Shoe */}
+          <Box args={[0.1, 0.06, 0.18]} position={[0.15, -0.2, 0.47]}>
+            <meshStandardMaterial color="#0a0a0a" roughness={0.3} />
+          </Box>
         </group>
       </group>
 
-      {/* Player Chair & Silhouette (Right) */}
+      {/* Player Chair & Seated Person (Right) */}
       <group position={[2.8, -0.1, 0]} rotation={[0, -Math.PI / 2, 0]}>
         {/* Chair */}
         <Cylinder args={[0.4, 0.4, 0.8, 16]} position={[0, -0.2, 0]}>
@@ -118,14 +165,61 @@ function GameShowSet() {
         <Box args={[0.9, 1.2, 0.1]} position={[0, 0.8, -0.4]} rotation={[0.1, 0, 0]}>
           <meshStandardMaterial color="#0a0a0a" roughness={0.3} />
         </Box>
-        {/* Abstract Player Silhouette */}
-        <group position={[0, 0.4, 0.1]}>
-          <Box args={[0.55, 0.75, 0.3]} position={[0, 0.375, 0]}>
-            <meshStandardMaterial color="#0a0a0a" roughness={0.9} />
-          </Box>
-          <Sphere args={[0.22, 16, 16]} position={[0, 1.0, 0]}>
-            <meshStandardMaterial color="#080808" roughness={0.5} />
+
+        {/* Seated Player Mannequin */}
+        <group position={[0, 0.25, 0]}>
+          {/* Head */}
+          <Sphere args={[0.18, 16, 16]} position={[0, 1.35, 0]}>
+            <meshStandardMaterial color="#3b2a1a" roughness={0.6} />
           </Sphere>
+          {/* Neck */}
+          <Cylinder args={[0.06, 0.06, 0.12, 8]} position={[0, 1.12, 0]}>
+            <meshStandardMaterial color="#3b2a1a" roughness={0.6} />
+          </Cylinder>
+          {/* Torso */}
+          <Box args={[0.45, 0.55, 0.22]} position={[0, 0.75, 0]}>
+            <meshStandardMaterial color="#1e3a5f" roughness={0.4} />
+          </Box>
+          {/* Left Upper Arm */}
+          <Cylinder args={[0.065, 0.055, 0.33, 8]} position={[-0.3, 0.85, 0]} rotation={[0, 0, 0.3]}>
+            <meshStandardMaterial color="#1e3a5f" roughness={0.4} />
+          </Cylinder>
+          {/* Left Forearm */}
+          <Cylinder args={[0.055, 0.045, 0.28, 8]} position={[-0.28, 0.55, 0.15]} rotation={[1.2, 0, 0]}>
+            <meshStandardMaterial color="#3b2a1a" roughness={0.6} />
+          </Cylinder>
+          {/* Right Upper Arm */}
+          <Cylinder args={[0.065, 0.055, 0.33, 8]} position={[0.3, 0.85, 0]} rotation={[0, 0, -0.3]}>
+            <meshStandardMaterial color="#1e3a5f" roughness={0.4} />
+          </Cylinder>
+          {/* Right Forearm */}
+          <Cylinder args={[0.055, 0.045, 0.28, 8]} position={[0.28, 0.55, 0.15]} rotation={[1.2, 0, 0]}>
+            <meshStandardMaterial color="#3b2a1a" roughness={0.6} />
+          </Cylinder>
+          {/* Left Thigh */}
+          <Cylinder args={[0.085, 0.075, 0.42, 8]} position={[-0.13, 0.35, 0.2]} rotation={[1.5, 0, 0]}>
+            <meshStandardMaterial color="#1a1a2e" roughness={0.5} />
+          </Cylinder>
+          {/* Right Thigh */}
+          <Cylinder args={[0.085, 0.075, 0.42, 8]} position={[0.13, 0.35, 0.2]} rotation={[1.5, 0, 0]}>
+            <meshStandardMaterial color="#1a1a2e" roughness={0.5} />
+          </Cylinder>
+          {/* Left Lower Leg */}
+          <Cylinder args={[0.065, 0.055, 0.38, 8]} position={[-0.13, 0.0, 0.42]} rotation={[0.1, 0, 0]}>
+            <meshStandardMaterial color="#1a1a2e" roughness={0.5} />
+          </Cylinder>
+          {/* Right Lower Leg */}
+          <Cylinder args={[0.065, 0.055, 0.38, 8]} position={[0.13, 0.0, 0.42]} rotation={[0.1, 0, 0]}>
+            <meshStandardMaterial color="#1a1a2e" roughness={0.5} />
+          </Cylinder>
+          {/* Left Shoe */}
+          <Box args={[0.09, 0.06, 0.17]} position={[-0.13, -0.2, 0.47]}>
+            <meshStandardMaterial color="#0a0a0a" roughness={0.3} />
+          </Box>
+          {/* Right Shoe */}
+          <Box args={[0.09, 0.06, 0.17]} position={[0.13, -0.2, 0.47]}>
+            <meshStandardMaterial color="#0a0a0a" roughness={0.3} />
+          </Box>
         </group>
       </group>
 

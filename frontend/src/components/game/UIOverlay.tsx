@@ -41,9 +41,9 @@ export default function UIOverlay({
   const [audiencePoll, setAudiencePoll] = useState<number[] | null>(null);
   const [friendAdvice, setFriendAdvice] = useState<string | null>(null);
 
-  const { play: playSuspense, stop: stopSuspense } = useSound('/sounds/suspense.mp3');
-  const { play: playCorrect } = useSound('/sounds/correct.mp3');
-  const { play: playWrong } = useSound('/sounds/wrong.mp3');
+  const { play: playSuspense, stop: stopSuspense } = useSound('/sounds/suspense.mp3', false, 0.3);
+  const { play: playCorrect } = useSound('/sounds/correct.mp3', false, 0.3);
+  const { play: playWrong } = useSound('/sounds/wrong.mp3', false, 0.3);
 
   // Reset local state when question changes and read question aloud
   useEffect(() => {
@@ -174,6 +174,35 @@ export default function UIOverlay({
   if (!currentQuestion) return null;
 
   return (
+    <>
+    {/* Lifelines - positioned above the Rewards card on the right */}
+    <div className="absolute right-4 top-4 z-20 flex flex-row gap-3">
+      <button 
+        disabled={usedLifelines.fiftyFifty}
+        onClick={useFiftyFifty}
+        title="50:50 — Remove two wrong answers"
+        className={`p-3 border rounded-full transition ${usedLifelines.fiftyFifty ? 'bg-gray-800 border-gray-600 text-gray-600' : 'bg-blue-900/50 border-blue-500 hover:bg-blue-800/80 text-white'}`}
+      >
+        <span className="font-bold">50:50</span>
+      </button>
+      <button 
+        disabled={usedLifelines.phone}
+        onClick={usePhone}
+        title="Phone a Friend — Get a hint from a friend"
+        className={`p-3 border rounded-full transition ${usedLifelines.phone ? 'bg-gray-800 border-gray-600 text-gray-600' : 'bg-blue-900/50 border-blue-500 hover:bg-blue-800/80 text-white'}`}
+      >
+        <Phone size={24} />
+      </button>
+      <button 
+        disabled={usedLifelines.audience}
+        onClick={useAudience}
+        title="Ask the Audience — See what the audience thinks"
+        className={`p-3 border rounded-full transition ${usedLifelines.audience ? 'bg-gray-800 border-gray-600 text-gray-600' : 'bg-blue-900/50 border-blue-500 hover:bg-blue-800/80 text-white'}`}
+      >
+        <Users size={24} />
+      </button>
+    </div>
+
     <div className="absolute inset-x-0 bottom-0 top-auto z-20 flex flex-col items-center p-4 md:p-8 pb-12">
       
       {/* Modals for Lifelines */}
@@ -196,31 +225,6 @@ export default function UIOverlay({
           <button onClick={() => setFriendAdvice(null)} className="mt-4 px-4 py-1 border border-white text-white rounded-full text-sm">Close</button>
         </div>
       )}
-
-      {/* Lifelines */}
-      <div className="flex gap-4 mb-6">
-        <button 
-          disabled={usedLifelines.fiftyFifty}
-          onClick={useFiftyFifty}
-          className={`p-3 border rounded-full transition ${usedLifelines.fiftyFifty ? 'bg-gray-800 border-gray-600 text-gray-600' : 'bg-blue-900/50 border-blue-500 hover:bg-blue-800/80 text-white'}`}
-        >
-          <span className="font-bold">50:50</span>
-        </button>
-        <button 
-          disabled={usedLifelines.phone}
-          onClick={usePhone}
-          className={`p-3 border rounded-full transition ${usedLifelines.phone ? 'bg-gray-800 border-gray-600 text-gray-600' : 'bg-blue-900/50 border-blue-500 hover:bg-blue-800/80 text-white'}`}
-        >
-          <Phone size={24} />
-        </button>
-        <button 
-          disabled={usedLifelines.audience}
-          onClick={useAudience}
-          className={`p-3 border rounded-full transition ${usedLifelines.audience ? 'bg-gray-800 border-gray-600 text-gray-600' : 'bg-blue-900/50 border-blue-500 hover:bg-blue-800/80 text-white'}`}
-        >
-          <Users size={24} />
-        </button>
-      </div>
 
       {/* Question Box */}
       <div className="w-full max-w-4xl bg-gradient-to-b from-blue-900/80 to-black/90 border-2 border-blue-500/50 rounded-xl p-6 md:p-8 text-center mb-4 shadow-[0_0_30px_rgba(59,130,246,0.3)] backdrop-blur-md">
@@ -268,5 +272,6 @@ export default function UIOverlay({
         })}
       </div>
     </div>
+    </>
   );
 }

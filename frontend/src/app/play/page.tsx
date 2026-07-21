@@ -30,8 +30,8 @@ export default function Home() {
     audience: false
   });
 
-  const { play: playTheme, stop: stopTheme } = useSound('/sounds/theme.mp3', true);
-  const { play: playWin } = useSound('/sounds/win.mp3');
+  const { play: playTheme, stop: stopTheme } = useSound('/sounds/theme.mp3', true, 0.05);
+  const { play: playWin } = useSound('/sounds/win.mp3', false, 0.5);
 
   useEffect(() => {
     if (gameState === 'playing') {

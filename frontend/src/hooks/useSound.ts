@@ -1,12 +1,13 @@
 import { useRef, useEffect, useCallback } from 'react';
 
-export function useSound(url: string, loop: boolean = false) {
+export function useSound(url: string, loop: boolean = false, volume: number = 1.0) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       audioRef.current = new Audio(url);
       audioRef.current.loop = loop;
+      audioRef.current.volume = Math.max(0, Math.min(1, volume));
     }
     
     return () => {
@@ -15,7 +16,7 @@ export function useSound(url: string, loop: boolean = false) {
         audioRef.current.src = "";
       }
     };
-  }, [url, loop]);
+  }, [url, loop, volume]);
 
   const play = useCallback(() => {
     if (audioRef.current) {
