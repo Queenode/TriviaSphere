@@ -12,10 +12,23 @@ const Scene = dynamic(() => import('@/components/game/Scene'), { ssr: false });
 
 type GameState = 'start' | 'playing' | 'gameover' | 'won';
 
+export type Lifelines = {
+  fiftyFifty: boolean;
+  phone: boolean;
+  audience: boolean;
+};
+
 export default function Home() {
   const [gameState, setGameState] = useState<GameState>('playing');
   const [currentLevel, setCurrentLevel] = useState(1);
   const [message, setMessage] = useState('');
+  const [isRevealing, setIsRevealing] = useState(false);
+  
+  const [usedLifelines, setUsedLifelines] = useState<Lifelines>({
+    fiftyFifty: false,
+    phone: false,
+    audience: false
+  });
 
   const { play: playTheme, stop: stopTheme } = useSound('/sounds/theme.mp3', true);
   const { play: playWin } = useSound('/sounds/win.mp3');
@@ -37,6 +50,8 @@ export default function Home() {
     setGameState('playing');
     setCurrentLevel(1);
     setMessage('');
+    setUsedLifelines({ fiftyFifty: false, phone: false, audience: false });
+    setIsRevealing(false);
   };
 
   const handleAnswer = (index: number) => {
@@ -67,12 +82,11 @@ export default function Home() {
   const triggerMint = (level: number) => {
     // In a full Web3 integration, this would pop up the wallet to mint the badge
     console.log(`Triggering mint for level ${level} milestone badge!`);
-    // Example: alert(`Milestone reached! Minting Level ${level} Badge...`);
   };
 
   return (
     <main className="relative w-screen h-screen overflow-hidden bg-black text-white font-sans">
-      <Scene />
+      <Scene isRevealing={isRevealing} />
       
       <UIOverlay 
         currentQuestion={currentQuestion}
@@ -80,6 +94,10 @@ export default function Home() {
         gameState={gameState}
         onStart={startGame}
         message={message}
+        usedLifelines={usedLifelines}
+        setUsedLifelines={setUsedLifelines}
+        isRevealing={isRevealing}
+        setIsRevealing={setIsRevealing}
       />
 
       {gameState === 'playing' && (

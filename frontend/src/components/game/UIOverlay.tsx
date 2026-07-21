@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, Users, HelpCircle } from 'lucide-react';
 import { useSound } from '@/hooks/useSound';
+import { Lifelines } from '@/app/play/page';
+
 interface Question {
   id: number;
   level: number;
@@ -15,26 +17,66 @@ interface UIOverlayProps {
   gameState: 'start' | 'playing' | 'gameover' | 'won';
   onStart: () => void;
   message: string;
+  usedLifelines: Lifelines;
+  setUsedLifelines: React.Dispatch<React.SetStateAction<Lifelines>>;
+  isRevealing: boolean;
+  setIsRevealing: (val: boolean) => void;
 }
 
-export default function UIOverlay({ currentQuestion, onAnswerSubmit, gameState, onStart, message }: UIOverlayProps) {
+export default function UIOverlay({ 
+  currentQuestion, 
+  onAnswerSubmit, 
+  gameState, 
+  onStart, 
+  message,
+  usedLifelines,
+  setUsedLifelines,
+  isRevealing,
+  setIsRevealing
+}: UIOverlayProps) {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [isRevealing, setIsRevealing] = useState(false);
+  const [hiddenOptions, setHiddenOptions] = useState<number[]>([]);
+  
+  // Lifeline modals
+  const [audiencePoll, setAudiencePoll] = useState<number[] | null>(null);
+  const [friendAdvice, setFriendAdvice] = useState<string | null>(null);
 
   const { play: playSuspense, stop: stopSuspense } = useSound('/sounds/suspense.mp3');
   const { play: playCorrect } = useSound('/sounds/correct.mp3');
   const { play: playWrong } = useSound('/sounds/wrong.mp3');
 
-  // Reset local state when question changes
+  // Reset local state when question changes and read question aloud
   useEffect(() => {
     setSelectedAnswer(null);
     setIsRevealing(false);
-  }, [currentQuestion]);
+    setHiddenOptions([]);
+    setAudiencePoll(null);
+    setFriendAdvice(null);
+
+    // Text to speech host voice
+    if (currentQuestion && gameState === 'playing' && typeof window !== 'undefined') {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(currentQuestion.question);
+      utterance.pitch = 0.5; // Deeper voice
+      utterance.rate = 0.9; // Slightly slower for suspense
+      
+      const voices = window.speechSynthesis.getVoices();
+      const maleVoice = voices.find(v => v.name.toLowerCase().includes('male') || v.name.includes('UK'));
+      if (maleVoice) utterance.voice = maleVoice;
+      
+      window.speechSynthesis.speak(utterance);
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') window.speechSynthesis.cancel();
+    }
+  }, [currentQuestion, gameState, setIsRevealing]);
 
   const handleSelect = (index: number) => {
     if (selectedAnswer !== null || isRevealing) return;
     setSelectedAnswer(index);
     playSuspense();
+    if (typeof window !== 'undefined') window.speechSynthesis.cancel(); // Stop talking when locked in
     
     // Simulate suspense
     setTimeout(() => {
@@ -49,8 +91,53 @@ export default function UIOverlay({ currentQuestion, onAnswerSubmit, gameState, 
 
       setTimeout(() => {
         onAnswerSubmit(index);
-      }, 2000); // 2 second delay to show right/wrong
-    }, 1500); // 1.5 seconds of "Is that your final answer?"
+      }, 3000); // 3 second delay to show right/wrong and let sound play
+    }, 2000); // 2 seconds of "Is that your final answer?"
+  };
+
+  const useFiftyFifty = () => {
+    if (usedLifelines.fiftyFifty || !currentQuestion) return;
+    const wrongIndices = [0, 1, 2, 3].filter(i => i !== currentQuestion.correctAnswer);
+    // Shuffle and pick 2
+    const toHide = wrongIndices.sort(() => 0.5 - Math.random()).slice(0, 2);
+    setHiddenOptions(toHide);
+    setUsedLifelines(prev => ({ ...prev, fiftyFifty: true }));
+  };
+
+  const useAudience = () => {
+    if (usedLifelines.audience || !currentQuestion) return;
+    
+    // Generate fake poll favoring the correct answer
+    const poll = [0, 0, 0, 0];
+    let remaining = 100;
+    
+    // Correct gets between 40-70%
+    const correctPercent = Math.floor(Math.random() * 30) + 40;
+    poll[currentQuestion.correctAnswer] = correctPercent;
+    remaining -= correctPercent;
+
+    // Distribute rest
+    const wrongIndices = [0, 1, 2, 3].filter(i => i !== currentQuestion.correctAnswer);
+    wrongIndices.forEach((index, i) => {
+      if (i === 2) {
+        poll[index] = remaining; // Last one gets the rest
+      } else {
+        const share = Math.floor(Math.random() * remaining);
+        poll[index] = share;
+        remaining -= share;
+      }
+    });
+
+    setAudiencePoll(poll);
+    setUsedLifelines(prev => ({ ...prev, audience: true }));
+  };
+
+  const usePhone = () => {
+    if (usedLifelines.phone || !currentQuestion) return;
+    const letters = ['A', 'B', 'C', 'D'];
+    const correctLetter = letters[currentQuestion.correctAnswer];
+    setFriendAdvice(`"Hello! I'm pretty sure the answer is ${correctLetter}, but I could be wrong!"`);
+    setUsedLifelines(prev => ({ ...prev, phone: true }));
   };
 
   if (gameState === 'gameover' || gameState === 'won') {
@@ -75,15 +162,48 @@ export default function UIOverlay({ currentQuestion, onAnswerSubmit, gameState, 
   return (
     <div className="absolute inset-x-0 bottom-0 top-auto z-10 flex flex-col items-center p-4 md:p-8 pb-12">
       
+      {/* Modals for Lifelines */}
+      {audiencePoll && (
+        <div className="absolute bottom-full mb-8 bg-blue-900/90 border-2 border-blue-400 p-6 rounded-xl flex items-end gap-4 h-48">
+          {audiencePoll.map((percent, idx) => (
+            <div key={idx} className="flex flex-col items-center gap-2">
+              <span className="text-white text-sm font-bold">{percent}%</span>
+              <div className="w-12 bg-blue-500 rounded-t-md transition-all duration-1000" style={{ height: `${percent}%` }}></div>
+              <span className="text-orange-400 font-bold">{String.fromCharCode(65 + idx)}</span>
+            </div>
+          ))}
+          <button onClick={() => setAudiencePoll(null)} className="absolute -top-3 -right-3 bg-red-500 text-white rounded-full w-8 h-8 font-bold">X</button>
+        </div>
+      )}
+
+      {friendAdvice && (
+        <div className="absolute bottom-full mb-8 bg-blue-900/90 border-2 border-blue-400 p-6 rounded-xl max-w-md text-center">
+          <p className="text-xl text-white italic">{friendAdvice}</p>
+          <button onClick={() => setFriendAdvice(null)} className="mt-4 px-4 py-1 border border-white text-white rounded-full text-sm">Close</button>
+        </div>
+      )}
+
       {/* Lifelines */}
       <div className="flex gap-4 mb-6">
-        <button className="p-3 bg-blue-900/50 border border-blue-500 rounded-full hover:bg-blue-800/80 transition text-white">
-          <HelpCircle size={24} />
+        <button 
+          disabled={usedLifelines.fiftyFifty}
+          onClick={useFiftyFifty}
+          className={`p-3 border rounded-full transition ${usedLifelines.fiftyFifty ? 'bg-gray-800 border-gray-600 text-gray-600' : 'bg-blue-900/50 border-blue-500 hover:bg-blue-800/80 text-white'}`}
+        >
+          <span className="font-bold">50:50</span>
         </button>
-        <button className="p-3 bg-blue-900/50 border border-blue-500 rounded-full hover:bg-blue-800/80 transition text-white">
+        <button 
+          disabled={usedLifelines.phone}
+          onClick={usePhone}
+          className={`p-3 border rounded-full transition ${usedLifelines.phone ? 'bg-gray-800 border-gray-600 text-gray-600' : 'bg-blue-900/50 border-blue-500 hover:bg-blue-800/80 text-white'}`}
+        >
           <Phone size={24} />
         </button>
-        <button className="p-3 bg-blue-900/50 border border-blue-500 rounded-full hover:bg-blue-800/80 transition text-white">
+        <button 
+          disabled={usedLifelines.audience}
+          onClick={useAudience}
+          className={`p-3 border rounded-full transition ${usedLifelines.audience ? 'bg-gray-800 border-gray-600 text-gray-600' : 'bg-blue-900/50 border-blue-500 hover:bg-blue-800/80 text-white'}`}
+        >
           <Users size={24} />
         </button>
       </div>
@@ -98,6 +218,10 @@ export default function UIOverlay({ currentQuestion, onAnswerSubmit, gameState, 
       {/* Answers Grid */}
       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-4">
         {currentQuestion.options.map((option, index) => {
+          if (hiddenOptions.includes(index)) {
+            return <div key={index} className="py-4 px-6 opacity-0">Hidden</div>;
+          }
+
           let btnClass = "border-blue-500/50 bg-blue-900/40 hover:bg-blue-800/60 text-white";
           
           if (selectedAnswer === index) {
@@ -106,7 +230,7 @@ export default function UIOverlay({ currentQuestion, onAnswerSubmit, gameState, 
           
           if (isRevealing) {
             if (index === currentQuestion.correctAnswer) {
-              btnClass = "border-green-400 bg-green-500/60 text-white shadow-[0_0_20px_rgba(74,222,128,0.5)]"; // Correct
+              btnClass = "border-green-400 bg-green-500/60 text-white shadow-[0_0_20px_rgba(74,222,128,0.5)] z-20 scale-105"; // Correct
             } else if (selectedAnswer === index) {
               btnClass = "border-red-500 bg-red-600/60 text-white"; // Wrong
             } else {

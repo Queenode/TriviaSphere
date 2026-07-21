@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 
 export function useSound(url: string, loop: boolean = false) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -17,21 +17,23 @@ export function useSound(url: string, loop: boolean = false) {
     };
   }, [url, loop]);
 
-  const play = () => {
+  const play = useCallback(() => {
     if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(e => {
-        console.warn(`Audio play failed for ${url}. This is normal if the file doesn't exist yet or if browser autoplay blocked it.`, e);
-      });
+      if (audioRef.current.paused) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch(e => {
+          console.warn(`Audio play failed for ${url}`, e);
+        });
+      }
     }
-  };
+  }, [url]);
 
-  const stop = () => {
+  const stop = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
-  };
+  }, []);
 
   return { play, stop };
 }
