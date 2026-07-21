@@ -83,10 +83,24 @@ export default function UIOverlay({
       setIsRevealing(true);
       stopSuspense();
       
+      const speakResult = (text: string) => {
+        if (typeof window !== 'undefined') {
+          const u = new SpeechSynthesisUtterance(text);
+          u.pitch = 0.5;
+          u.rate = 0.9;
+          const voices = window.speechSynthesis.getVoices();
+          const maleVoice = voices.find(v => v.name.toLowerCase().includes('male') || v.name.includes('UK'));
+          if (maleVoice) u.voice = maleVoice;
+          window.speechSynthesis.speak(u);
+        }
+      };
+
       if (currentQuestion && index === currentQuestion.correctAnswer) {
         playCorrect();
+        speakResult("Correct!");
       } else {
         playWrong();
+        speakResult("I am sorry, but that is incorrect.");
       }
 
       setTimeout(() => {

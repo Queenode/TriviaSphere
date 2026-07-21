@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Environment, Cylinder, Ring } from "@react-three/drei";
+import { OrbitControls, Environment, Cylinder, Ring, Box, Sphere, Plane } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from 'three';
 
@@ -23,60 +23,152 @@ function StudioLights() {
 
   return (
     <>
-      <ambientLight intensity={0.1} />
-      <spotLight ref={lightRef1} position={[0, 8, 5]} angle={0.4} penumbra={1} intensity={100} color="#3b82f6" castShadow />
-      <spotLight ref={lightRef2} position={[5, 8, -5]} angle={0.4} penumbra={1} intensity={100} color="#8b5cf6" castShadow />
-      <pointLight position={[0, 2, 0]} intensity={10} color="#ffffff" distance={6} />
+      <ambientLight intensity={0.2} />
+      <pointLight position={[0, 10, 0]} intensity={40} color="#1d4ed8" distance={20} />
+      <pointLight position={[0, 0, 0]} intensity={20} color="#00ffff" distance={6} />
+      <spotLight ref={lightRef1} position={[0, 8, 5]} angle={0.4} penumbra={1} intensity={150} color="#3b82f6" castShadow />
+      <spotLight ref={lightRef2} position={[5, 8, -5]} angle={0.4} penumbra={1} intensity={150} color="#8b5cf6" castShadow />
     </>
+  );
+}
+
+function GameShowSet() {
+  return (
+    <group position={[0, -1, 0]}>
+      {/* Intricate Floor Pattern */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
+        <circleGeometry args={[10, 64]} />
+        <meshStandardMaterial color="#020813" roughness={0.5} metalness={0.5} />
+      </mesh>
+      
+      {/* Concentric Neon Rings on Floor */}
+      {[1.5, 3, 5, 7, 9].map((radius, i) => (
+        <Ring key={i} args={[radius - 0.05, radius, 64]} position={[0, -0.49, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <meshBasicMaterial color={i % 2 === 0 ? "#3b82f6" : "#00ffff"} transparent opacity={0.6} />
+        </Ring>
+      ))}
+
+      {/* Intersecting Floor Lines */}
+      {Array.from({ length: 12 }).map((_, i) => (
+        <Box key={`line-${i}`} args={[20, 0.02, 0.1]} position={[0, -0.48, 0]} rotation={[0, (Math.PI / 6) * i, 0]}>
+          <meshBasicMaterial color="#3b82f6" transparent opacity={0.3} />
+        </Box>
+      ))}
+
+      {/* Center V-Console */}
+      <group position={[0, 0, 0]}>
+        <Cylinder args={[1.2, 1.2, 0.2, 32]} position={[0, -0.4, 0]}>
+          <meshStandardMaterial color="#050505" metalness={0.9} />
+        </Cylinder>
+        <Ring args={[1.1, 1.25, 32]} position={[0, -0.29, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <meshBasicMaterial color="#00ffff" />
+        </Ring>
+
+        {/* Left Arm of V */}
+        <Box args={[0.3, 1.8, 0.8]} position={[-0.8, 0.4, 0]} rotation={[0, 0, -0.5]}>
+          <meshStandardMaterial color="#111" metalness={0.8} />
+        </Box>
+        <Box args={[0.05, 1.8, 0.81]} position={[-0.65, 0.4, 0]} rotation={[0, 0, -0.5]}>
+          <meshBasicMaterial color="#00ffff" />
+        </Box>
+
+        {/* Right Arm of V */}
+        <Box args={[0.3, 1.8, 0.8]} position={[0.8, 0.4, 0]} rotation={[0, 0, 0.5]}>
+          <meshStandardMaterial color="#111" metalness={0.8} />
+        </Box>
+        <Box args={[0.05, 1.8, 0.81]} position={[0.65, 0.4, 0]} rotation={[0, 0, 0.5]}>
+          <meshBasicMaterial color="#3b82f6" />
+        </Box>
+      </group>
+
+      {/* Host Chair & Silhouette (Left) */}
+      <group position={[-2.8, -0.1, 0]} rotation={[0, Math.PI / 2, 0]}>
+        {/* Chair */}
+        <Cylinder args={[0.4, 0.4, 0.8, 16]} position={[0, -0.2, 0]}>
+           <meshStandardMaterial color="#1a1a1a" metalness={0.8} />
+        </Cylinder>
+        <Box args={[0.9, 0.1, 0.9]} position={[0, 0.2, 0]}>
+           <meshStandardMaterial color="#0a0a0a" />
+        </Box>
+        <Box args={[0.9, 1.2, 0.1]} position={[0, 0.8, -0.4]} rotation={[0.1, 0, 0]}>
+           <meshStandardMaterial color="#0a0a0a" />
+        </Box>
+        {/* Abstract Host Silhouette */}
+        <group position={[0, 0.4, 0.1]}>
+          <Box args={[0.6, 0.8, 0.3]} position={[0, 0.4, 0]}>
+             <meshStandardMaterial color="#050505" roughness={0.9} />
+          </Box>
+          <Sphere args={[0.25]} position={[0, 1.05, 0]}>
+             <meshStandardMaterial color="#020202" roughness={0.5} />
+          </Sphere>
+        </group>
+      </group>
+
+      {/* Player Chair & Silhouette (Right) */}
+      <group position={[2.8, -0.1, 0]} rotation={[0, -Math.PI / 2, 0]}>
+        {/* Chair */}
+        <Cylinder args={[0.4, 0.4, 0.8, 16]} position={[0, -0.2, 0]}>
+           <meshStandardMaterial color="#1a1a1a" metalness={0.8} />
+        </Cylinder>
+        <Box args={[0.9, 0.1, 0.9]} position={[0, 0.2, 0]}>
+           <meshStandardMaterial color="#0a0a0a" />
+        </Box>
+        <Box args={[0.9, 1.2, 0.1]} position={[0, 0.8, -0.4]} rotation={[0.1, 0, 0]}>
+           <meshStandardMaterial color="#0a0a0a" />
+        </Box>
+        {/* Abstract Player Silhouette */}
+        <group position={[0, 0.4, 0.1]}>
+          <Box args={[0.55, 0.75, 0.3]} position={[0, 0.375, 0]}>
+             <meshStandardMaterial color="#0a0a0a" roughness={0.9} />
+          </Box>
+          <Sphere args={[0.22]} position={[0, 1.0, 0]}>
+             <meshStandardMaterial color="#050505" roughness={0.5} />
+          </Sphere>
+        </group>
+      </group>
+
+      {/* Background Giant Rings */}
+      <Ring args={[11.8, 12, 64]} position={[0, 4, -10]} rotation={[0, 0, 0]}>
+        <meshBasicMaterial color="#1d4ed8" transparent opacity={0.4} />
+      </Ring>
+      <Ring args={[14.8, 15, 64]} position={[0, 5, -14]} rotation={[0, 0, 0]}>
+        <meshBasicMaterial color="#3b82f6" transparent opacity={0.2} />
+      </Ring>
+    </group>
   );
 }
 
 function CameraRig({ isRevealing }: { isRevealing: boolean }) {
   useFrame((state) => {
     // Zoom in dramatically when an answer is locked in
-    const targetZ = isRevealing ? 4 : 8;
-    const targetY = isRevealing ? 1.5 : 3;
-    state.camera.position.lerp(new THREE.Vector3(0, targetY, targetZ), 0.03);
-    state.camera.lookAt(0, 0, 0);
+    const targetZ = isRevealing ? 5 : 9;
+    const targetY = isRevealing ? 1.5 : 3.5;
+    const targetX = isRevealing ? 0 : 0;
+    
+    state.camera.position.lerp(new THREE.Vector3(targetX, targetY, targetZ), 0.02);
+    state.camera.lookAt(0, 0.5, 0); // Focus on the V-console
   });
   return null;
 }
 
 export default function Scene({ isRevealing = false }: { isRevealing?: boolean }) {
   return (
-    <div className="absolute inset-0 -z-10 bg-gray-950">
-      <Canvas shadows camera={{ position: [0, 3, 8], fov: 45 }}>
-        <fog attach="fog" args={['#050510', 5, 20]} />
+    <div className="absolute inset-0 -z-10 bg-[#02050a]">
+      <Canvas shadows camera={{ position: [0, 4, 10], fov: 45 }}>
+        <fog attach="fog" args={['#02050a', 6, 25]} />
         <StudioLights />
         <Environment preset="city" />
 
-        {/* Center Glowing Table */}
-        <Cylinder args={[2, 1.5, 0.5, 32]} position={[0, -0.5, 0]} receiveShadow castShadow>
-          <meshStandardMaterial color="#0a0a0a" metalness={0.9} roughness={0.1} />
-        </Cylinder>
-        
-        {/* Neon Rings around table */}
-        <Ring args={[2.1, 2.15, 64]} position={[0, -0.24, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <meshBasicMaterial color="#3b82f6" toneMapped={false} />
-        </Ring>
-        <Ring args={[1.9, 1.95, 64]} position={[0, -0.24, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <meshBasicMaterial color="#ea580c" toneMapped={false} />
-        </Ring>
-
-        {/* Floor */}
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
-          <planeGeometry args={[50, 50]} />
-          <meshStandardMaterial color="#020205" roughness={0.9} metalness={0.1} />
-        </mesh>
+        <GameShowSet />
 
         <CameraRig isRevealing={isRevealing} />
         <OrbitControls 
           enableZoom={false} 
           enablePan={false} 
           maxPolarAngle={Math.PI / 2 - 0.1} 
-          minPolarAngle={0}
+          minPolarAngle={Math.PI / 6}
           autoRotate 
-          autoRotateSpeed={isRevealing ? 0.2 : 0.8} // Slow down rotation during suspense
+          autoRotateSpeed={isRevealing ? 0.1 : 0.3} 
         />
       </Canvas>
     </div>
