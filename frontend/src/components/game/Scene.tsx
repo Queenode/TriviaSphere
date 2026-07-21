@@ -138,37 +138,24 @@ function GameShowSet() {
   );
 }
 
-function CameraRig({ isRevealing }: { isRevealing: boolean }) {
-  useFrame((state) => {
-    // Zoom in dramatically when an answer is locked in
-    const targetZ = isRevealing ? 5 : 9;
-    const targetY = isRevealing ? 1.5 : 3.5;
-    const targetX = isRevealing ? 0 : 0;
-    
-    state.camera.position.lerp(new THREE.Vector3(targetX, targetY, targetZ), 0.02);
-    state.camera.lookAt(0, 0.5, 0); // Focus on the V-console
-  });
-  return null;
-}
-
 export default function Scene({ isRevealing = false }: { isRevealing?: boolean }) {
   return (
     <div className="absolute inset-0 -z-10 bg-[#02050a]">
-      <Canvas shadows camera={{ position: [0, 4, 10], fov: 45 }}>
+      <Canvas shadows camera={{ position: [0, 3.5, 9], fov: 45 }}>
         <fog attach="fog" args={['#02050a', 6, 25]} />
         <StudioLights />
         <Environment preset="city" />
 
         <GameShowSet />
 
-        <CameraRig isRevealing={isRevealing} />
         <OrbitControls 
           enableZoom={false} 
           enablePan={false} 
           maxPolarAngle={Math.PI / 2 - 0.1} 
           minPolarAngle={Math.PI / 6}
           autoRotate 
-          autoRotateSpeed={isRevealing ? 0.1 : 0.3} 
+          autoRotateSpeed={isRevealing ? 0.1 : 0.6} 
+          target={[0, 0.5, 0]}
         />
       </Canvas>
     </div>
