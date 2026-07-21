@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "level": 1,
+    "question": "What does HTTP stand for?",
+    "options": [
+      "HyperText Transfer Protocol",
+      "HyperText Transmission Protocol",
+      "HyperTransfer Text Protocol",
+      "HyperText Transfer Program"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 2,
+    "level": 2,
+    "question": "Which programming language is often used to write smart contracts on Celo?",
+    "options": ["Python", "Solidity", "Rust", "Java"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 3,
+    "level": 3,
+    "question": "What is the native currency of the Celo network?",
+    "options": ["ETH", "CELO", "cUSD", "BTC"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 4,
+    "level": 4,
+    "question": "Which consensus mechanism does Celo use?",
+    "options": ["Proof of Work", "Proof of Stake", "Delegated Proof of Stake", "Proof of Authority"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 5,
+    "level": 5,
+    "question": "What is the primary feature of MiniPay on Celo?",
+    "options": ["High gas fees", "Desktop only", "Mobile-first inside Opera Mini", "Trading stocks"],
+    "correctAnswer": 2
+  },
+  {
+    "id": 6,
+    "level": 6,
+    "question": "Which of these is NOT a stablecoin on Celo?",
+    "options": ["cUSD", "cEUR", "cREAL", "cGBP"],
+    "correctAnswer": 3
+  },
+  {
+    "id": 7,
+    "level": 7,
+    "question": "What does EVM stand for?",
+    "options": ["Ethereum Virtual Machine", "Electronic Voting Machine", "Ethereum Variable Manager", "External Verification Mechanism"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 8,
+    "level": 8,
+    "question": "What is the symbol for the native Celo token?",
+    "options": ["$CEL", "$CELO", "$CLO", "$C"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 9,
+    "level": 9,
+    "question": "Which organization develops the Opera Mini browser?",
+    "options": ["Mozilla", "Google", "Opera Software", "Microsoft"],
+    "correctAnswer": 2
+  },
+  {
+    "id": 10,
+    "level": 10,
+    "question": "What was the original name of the Celo project?",
+    "options": ["Celo", "cLabs", "Valora", "MobileCoin"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 11,
+    "level": 11,
+    "question": "Which layer 2 scaling solution is Celo migrating towards?",
+    "options": ["Optimism Stack", "Arbitrum", "zkSync", "Polygon Edge"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 12,
+    "level": 12,
+    "question": "In a smart contract, what does the 'view' modifier mean?",
+    "options": ["It modifies state", "It reads state but does not modify it", "It costs extra gas", "It restricts access"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 13,
+    "level": 13,
+    "question": "Which testnet is primarily used for Celo development?",
+    "options": ["Goerli", "Sepolia", "Alfajores", "Mumbai"],
+    "correctAnswer": 2
+  },
+  {
+    "id": 14,
+    "level": 14,
+    "question": "What feature allows paying for gas with tokens other than CELO?",
+    "options": ["GasAbstraction", "FeeCurrency", "MetaTransactions", "EIP-1559"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 15,
+    "level": 15,
+    "question": "Who is the primary founder of cLabs, the team behind Celo?",
+    "options": ["Vitalik Buterin", "Rene Reinsberg", "Gavin Wood", "Satoshi Nakamoto"],
+    "correctAnswer": 1
+  }
+]
