@@ -14,7 +14,7 @@ interface Question {
 interface UIOverlayProps {
   currentQuestion: Question | null;
   onAnswerSubmit: (index: number) => void;
-  gameState: 'start' | 'playing' | 'gameover' | 'won';
+  gameState: 'start' | 'playing' | 'gameover' | 'won' | 'milestone';
   onStart: () => void;
   message: string;
   usedLifelines: Lifelines;
@@ -167,6 +167,24 @@ export default function UIOverlay({
         >
           PLAY AGAIN
         </button>
+      </div>
+    );
+  }
+
+  if (gameState === 'milestone') {
+    return (
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-20 p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-500">
+        <div className="bg-gradient-to-b from-blue-900/90 to-black/90 p-12 rounded-3xl border-4 border-yellow-400 shadow-[0_0_50px_rgba(250,204,21,0.5)] flex flex-col items-center transform scale-110">
+          <h2 className="text-6xl font-black mb-6 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-600 drop-shadow-[0_0_10px_rgba(250,204,21,0.8)]">
+            MILESTONE REACHED!
+          </h2>
+          <p className="text-3xl text-white font-bold text-center animate-pulse">
+            Safe Haven Secured! 🎉
+          </p>
+          <p className="text-xl text-blue-200 mt-6 text-center">
+            Minting your Soulbound Badge...
+          </p>
+        </div>
       </div>
     );
   }

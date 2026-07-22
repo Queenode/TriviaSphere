@@ -12,7 +12,7 @@ import { useWindowSize } from 'react-use';
 // Dynamically import Scene so it only renders on client
 const Scene = dynamic(() => import('@/components/game/Scene'), { ssr: false });
 
-type GameState = 'start' | 'playing' | 'gameover' | 'won';
+type GameState = 'start' | 'playing' | 'gameover' | 'won' | 'milestone';
 
 export type Lifelines = {
   fiftyFifty: boolean;
@@ -76,20 +76,30 @@ export default function Home() {
         playWin();
         triggerMint(15);
       } else {
-        // Proceed to next level
-        setCurrentLevel(prev => prev + 1);
-        
-        // Check for safe haven milestones
+        // Check for safe haven milestones before proceeding
         if (currentLevel === 5) {
+          setGameState('milestone');
           setShowConfetti(true);
           playWin();
-          setTimeout(() => setShowConfetti(false), 5000);
           triggerMint(5);
+          setTimeout(() => {
+            setShowConfetti(false);
+            setGameState('playing');
+            setCurrentLevel(prev => prev + 1);
+          }, 4000);
         } else if (currentLevel === 10) {
+          setGameState('milestone');
           setShowConfetti(true);
           playWin();
-          setTimeout(() => setShowConfetti(false), 5000);
           triggerMint(10);
+          setTimeout(() => {
+            setShowConfetti(false);
+            setGameState('playing');
+            setCurrentLevel(prev => prev + 1);
+          }, 4000);
+        } else {
+          // Proceed to next level normally
+          setCurrentLevel(prev => prev + 1);
         }
       }
     } else {
