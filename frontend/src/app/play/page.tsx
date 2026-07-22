@@ -6,6 +6,8 @@ import questionsData from '@/data/questions.json';
 import UIOverlay from '@/components/game/UIOverlay';
 import PrizeLadder from '@/components/game/PrizeLadder';
 import { useSound } from '@/hooks/useSound';
+import Confetti from 'react-confetti';
+import { useWindowSize } from 'react-use';
 
 // Dynamically import Scene so it only renders on client
 const Scene = dynamic(() => import('@/components/game/Scene'), { ssr: false });
@@ -23,6 +25,9 @@ export default function Home() {
   const [currentLevel, setCurrentLevel] = useState(1);
   const [message, setMessage] = useState('');
   const [isRevealing, setIsRevealing] = useState(false);
+  const [shuffledQuestions, setShuffledQuestions] = useState(questionsData);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const { width, height } = useWindowSize();
   
   const [usedLifelines, setUsedLifelines] = useState<Lifelines>({
     fiftyFifty: false,
@@ -32,6 +37,10 @@ export default function Home() {
 
   const { play: playTheme, stop: stopTheme } = useSound('/sounds/theme.mp3', true, 0.05);
   const { play: playWin } = useSound('/sounds/win.mp3', false, 0.5);
+
+  useEffect(() => {
+    setShuffledQuestions([...questionsData].sort(() => Math.random() - 0.5));
+  }, []);
 
   useEffect(() => {
     if (gameState === 'playing') {
@@ -44,7 +53,7 @@ export default function Home() {
     }
   }, [gameState, playTheme, stopTheme, playWin]);
 
-  const currentQuestion = questionsData.find(q => q.level === currentLevel) || null;
+  const currentQuestion = shuffledQuestions[currentLevel - 1] || null;
 
   const startGame = () => {
     setGameState('playing');
@@ -52,6 +61,8 @@ export default function Home() {
     setMessage('');
     setUsedLifelines({ fiftyFifty: false, phone: false, audience: false });
     setIsRevealing(false);
+    setShowConfetti(false);
+    setShuffledQuestions([...questionsData].sort(() => Math.random() - 0.5));
   };
 
   const handleAnswer = (index: number) => {
@@ -61,6 +72,8 @@ export default function Home() {
       if (currentLevel === 15) {
         setGameState('won');
         setMessage('CONGRATULATIONS! You are a TriviaSphere Millionaire! Mint your Golden Badge now!');
+        setShowConfetti(true);
+        playWin();
         triggerMint(15);
       } else {
         // Proceed to next level
@@ -68,8 +81,14 @@ export default function Home() {
         
         // Check for safe haven milestones
         if (currentLevel === 5) {
+          setShowConfetti(true);
+          playWin();
+          setTimeout(() => setShowConfetti(false), 5000);
           triggerMint(5);
         } else if (currentLevel === 10) {
+          setShowConfetti(true);
+          playWin();
+          setTimeout(() => setShowConfetti(false), 5000);
           triggerMint(10);
         }
       }
@@ -85,7 +104,10 @@ export default function Home() {
   };
 
   return (
-    <main className="relative w-screen h-screen overflow-hidden text-white font-sans">
+    <main className="w-full h-screen relative bg-black overflow-hidden">
+      {showConfetti && <Confetti width={width} height={height} recycle={gameState === 'won'} numberOfPieces={300} />}
+      
+      {/* 3D Background */}
       <Scene isRevealing={isRevealing} />
       
       <UIOverlay 
