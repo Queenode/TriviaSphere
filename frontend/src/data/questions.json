@@ -57,7 +57,7 @@
     "id": 8,
     "level": 8,
     "question": "What is the symbol for the native Celo token?",
-    "options": ["$CEL", "$CELO", "$CLO", "$C"],
+    "options": ["$CEL", "CELO", "$CLO", "$C"],
     "correctAnswer": 1
   },
   {
@@ -107,6 +107,251 @@
     "level": 15,
     "question": "Who is the primary founder of cLabs, the team behind Celo?",
     "options": ["Vitalik Buterin", "Rene Reinsberg", "Gavin Wood", "Satoshi Nakamoto"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 16,
+    "level": 16,
+    "question": "What is the maximum supply of Bitcoin?",
+    "options": ["21 Million", "100 Million", "Infinite", "14 Million"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 17,
+    "level": 17,
+    "question": "Who created Bitcoin?",
+    "options": ["Vitalik Buterin", "Satoshi Nakamoto", "Elon Musk", "Mark Zuckerberg"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 18,
+    "level": 18,
+    "question": "What is a block explorer?",
+    "options": ["A cryptocurrency wallet", "A search engine for the blockchain", "A smart contract", "A mining rig"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 19,
+    "level": 19,
+    "question": "What is a 'gas limit' in Ethereum and Celo?",
+    "options": ["The maximum amount of gas a user is willing to spend", "The total gas in the network", "The speed of the transaction", "The price of Ethereum"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 20,
+    "level": 20,
+    "question": "What is a smart contract?",
+    "options": ["A legal document", "Self-executing code on the blockchain", "A type of cryptocurrency", "A hardware wallet"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 21,
+    "level": 21,
+    "question": "What is a Genesis Block?",
+    "options": ["The last block in a blockchain", "The first block in a blockchain", "A block with invalid transactions", "A block with no transactions"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 22,
+    "level": 22,
+    "question": "What does dApp stand for?",
+    "options": ["Digital Application", "Decentralized Application", "Data Application", "Distributed Application"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 23,
+    "level": 23,
+    "question": "What does DeFi stand for?",
+    "options": ["Decentralized Finance", "Digital Finance", "Distributed Finance", "Data Finance"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 24,
+    "level": 24,
+    "question": "What is an NFT?",
+    "options": ["Non-Fungible Token", "New Fungible Token", "Non-Financial Token", "New Financial Token"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 25,
+    "level": 25,
+    "question": "Which of these is a Web3 wallet?",
+    "options": ["PayPal", "Venmo", "MetaMask", "CashApp"],
+    "correctAnswer": 2
+  },
+  {
+    "id": 26,
+    "level": 26,
+    "question": "What does IPFS stand for?",
+    "options": ["InterPlanetary File System", "Internet Protocol File System", "Internal Public File System", "Integrated Processing File System"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 27,
+    "level": 27,
+    "question": "What is a 51% attack?",
+    "options": ["When 51% of users leave the network", "When a single entity controls more than 50% of the network's computing power", "When a token loses 51% of its value", "When 51% of transactions fail"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 28,
+    "level": 28,
+    "question": "What is a hard fork?",
+    "options": ["A soft update to the software", "A permanent divergence from the previous version of the blockchain", "A new hardware wallet", "A type of cryptocurrency"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 29,
+    "level": 29,
+    "question": "What does DAO stand for?",
+    "options": ["Decentralized Autonomous Organization", "Digital Asset Organization", "Distributed Application Organization", "Data Analysis Organization"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 30,
+    "level": 30,
+    "question": "What is a seed phrase?",
+    "options": ["A password for your email", "A list of words used to recover a crypto wallet", "A type of cryptocurrency", "A smart contract function"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 31,
+    "level": 31,
+    "question": "What is meant by 'minting' an NFT?",
+    "options": ["Selling it", "Publishing it uniquely on the blockchain", "Buying it", "Deleting it"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 32,
+    "level": 32,
+    "question": "Which standard is commonly used for NFTs on Ethereum and Celo?",
+    "options": ["ERC-20", "ERC-721", "ERC-1155", "ERC-777"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 33,
+    "level": 33,
+    "question": "What does 'gas' represent in Ethereum and Celo?",
+    "options": ["The fuel used by physical servers", "The computational effort required to execute operations", "The total supply of the token", "The speed of the network"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 34,
+    "level": 34,
+    "question": "What is a 'whale' in crypto?",
+    "options": ["A large sea creature", "An individual or entity holding a massive amount of cryptocurrency", "A type of cryptocurrency", "A smart contract bug"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 35,
+    "level": 35,
+    "question": "What does HODL mean in the crypto community?",
+    "options": ["Hold On for Dear Life", "Have Only Digital Liabilities", "High Order Digital Ledger", "Hold Over Digital Ledgers"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 36,
+    "level": 36,
+    "question": "What is a 'cold wallet'?",
+    "options": ["A wallet connected to the internet", "A wallet stored offline", "A wallet with no funds", "A frozen bank account"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 37,
+    "level": 37,
+    "question": "What does FOMO stand for?",
+    "options": ["Fear Of Missing Out", "Fear Of Market Operations", "Fear Of Money Orders", "Fear Of Minting Objects"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 38,
+    "level": 38,
+    "question": "What is 'Yield Farming'?",
+    "options": ["Growing crops in the metaverse", "Earning rewards by locking up cryptocurrencies in DeFi protocols", "Mining Bitcoin", "Buying and selling NFTs"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 39,
+    "level": 39,
+    "question": "What is a stablecoin?",
+    "options": ["A highly volatile cryptocurrency", "A cryptocurrency pegged to a stable asset like the US Dollar", "A type of smart contract", "A hardware wallet"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 40,
+    "level": 40,
+    "question": "What does KYC stand for?",
+    "options": ["Know Your Customer", "Keep Your Crypto", "Know Your Code", "Keep Your Cash"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 41,
+    "level": 41,
+    "question": "What is a 'rug pull'?",
+    "options": ["A type of smart contract", "A scam where developers abandon a project and take investors' money", "A physical carpet", "A successful NFT launch"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 42,
+    "level": 42,
+    "question": "What is an oracle in blockchain?",
+    "options": ["A fortune teller", "A service that provides real-world data to smart contracts", "A type of cryptocurrency", "A hardware wallet"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 43,
+    "level": 43,
+    "question": "What is the main purpose of Web3?",
+    "options": ["To create a decentralized internet", "To make websites load faster", "To replace HTML", "To sell more ads"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 44,
+    "level": 44,
+    "question": "What does TVL stand for in DeFi?",
+    "options": ["Total Value Locked", "Total Volume Listed", "Total Verification Ledger", "Total Virtual Liabilities"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 45,
+    "level": 45,
+    "question": "What is a zero-knowledge proof?",
+    "options": ["Proving you know something without revealing what it is", "A proof that you have zero crypto", "A failed transaction", "A type of smart contract bug"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 46,
+    "level": 46,
+    "question": "Which of these is a popular decentralized exchange (DEX)?",
+    "options": ["Binance", "Coinbase", "Uniswap", "Kraken"],
+    "correctAnswer": 2
+  },
+  {
+    "id": 47,
+    "level": 47,
+    "question": "What does DLT stand for?",
+    "options": ["Distributed Ledger Technology", "Digital Ledger Technology", "Decentralized Ledger Technology", "Data Ledger Technology"],
+    "correctAnswer": 0
+  },
+  {
+    "id": 48,
+    "level": 48,
+    "question": "What is 'slippage' in a crypto trade?",
+    "options": ["Falling on the floor", "The difference between the expected price and the actual execution price", "A failed transaction", "A high network fee"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 49,
+    "level": 49,
+    "question": "What is the primary language used for Solana smart contracts?",
+    "options": ["Solidity", "Rust", "Python", "Go"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 50,
+    "level": 50,
+    "question": "What is an airdrop in crypto?",
+    "options": ["Dropping your phone", "A free distribution of tokens to wallet addresses", "A new type of blockchain", "A smart contract vulnerability"],
     "correctAnswer": 1
   }
 ]
